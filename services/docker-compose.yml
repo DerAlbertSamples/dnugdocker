@@ -1,0 +1,12 @@
+helloworld:
+  image: helloworld
+  ports:
+   - "5500:5500"
+hello:
+  net: "container:helloworld"
+  image: hello
+world:
+  net: "container:helloworld"
+  image: world
+
+  

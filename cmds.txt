@@ -1,0 +1,28 @@
+
+// erstellung einer docker vm mit dem namen dev
+// auch andere driver wie Hyper-V oder Azure möglich
+docker-machine create --driver=virtualbox dev
+
+// starten und beenden
+docker-machine start dev
+docker-machine stop dev
+docker-machine ssh dev
+
+// env ausgeben zum setzen
+docker-machine env dev
+docker-machine env --shell=cmd dev
+docker-machine env --shell=powershell dev | Invoke-Expression
+
+// den /src Folder vom Host mit Virtualbox einbinden
+sudo mkdir /src
+sudo mount -t vboxsf src /src
+
+
+docker build -t helloworld .
+
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+docker rmi $(docker images -a -f "dangling=true" -q)
+
+dnu publish -o ./output --no-source --configuration Release --framework dnxcore50  .\src\helloworld\
+
